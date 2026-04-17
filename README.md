@@ -17,4 +17,43 @@ The source file that we have are-
 2. Customer_Master_Telecom.csv
 3. Tower_Master_Telecom.csv
 
-First we will clean the data
+Step 1: Data Cleanup (3 Separate Mappings)
+* Expression(handle null values, standardize dae/time)
+* Aggregator(sort, distinct)
+
+Step 2: Stage Tbale load
+1. Two parallel lookups
+2. Expression(calculate revenue and isinternational)
+
+Step-3 : 
+Then we created taskflow and run the two mapping in parellel and if it success then run third mapping.
+After that put decision and is the status is success then run the stage table load mapping.
+If it fails then, then send the email notification in that to developer.
+Also created the high usage mapping which shows the high usage of call duration.
+
+KPIs-
+1. Daily call summary
+   Used aggregator
+  * SUM(DURATION) → Total Duration
+  * AVG(DURATION) → Average Duration
+  *  COUNT(CALLID) → Total Calls
+  * Grouped data by date
+2. Call type performance analysis
+  used expression and then aggregator
+  group by applied on call type
+  calculated total calls, total duration, revenue, average duration
+3. International call monitoring
+  First used aggregator and applied group by on call type.
+  then calculated -
+  •	International Call Count
+  •	International Call Duration
+  •	International Revenue
+  Then used expression to calculate % of international calls.
+4. Revenue Data
+  Used-
+ 1. Aggregator(revenue per customer)
+ 2. expression(calculate % contribution to total revenue)
+ 3. sorter(sort in descending order)
+ 4. rank(top 2 customers)
+    
+  
